@@ -18,10 +18,28 @@
   import axios from 'axios'
   
   export default {
-    async fetch ({store}) {
-      const res = await axios.get('https://todos-lyfwerctxl.now.sh/todos')
-      store.commit('init', res.data)
+    async fetch ({store, redirect}) {
+      try {
+        const res = await axios.get('https://todos-lyfwerctxl.now.sh/todos')
+        store.commit('init', res.data)
+      } catch (err) {
+        redirect('/error')
+      }
     },
+
+    // async fetch ({store, redirect, error}) {
+    //  try {
+    //    const res = await axios.get('https://todos-lyfwerctxl.now.sh/todos')
+    //    store.commit('init', res.data)
+    //  } catch (err) {
+    //    error({statusCode: 500, message: 'Oops, try again'})
+    //  }
+    // },
+
+    // async created () {
+    //  const res = await axios.get('https://todos-lyfwerctxl.now.sh/todos')
+    //  this.$store.commit('init', res.data)
+    // },
     computed: {
       ...mapState({
         todos: state => state.todos
