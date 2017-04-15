@@ -1,5 +1,10 @@
 <template>
   <div>
+  
+    <form @submit.prevent="add(task)">
+      <input v-model="task" type="text">
+    </form>
+
     <!--http://tachyons.io/components/lists/border-spaced/index.html-->
     <article class="pa3 pa5-ns">
       <h1 class="f4 bold center mw6">Todos</h1>
@@ -14,32 +19,18 @@
 
 <script>
   // https://github.com/vuejs/vuex
-  import {mapState} from 'vuex'
-  import axios from 'axios'
-  
+  import {mapState, mapActions} from 'vuex'
+  import {init} from './shared'
+
   export default {
-    async fetch ({store, redirect}) {
-      try {
-        const res = await axios.get('https://todos-lyfwerctxl.now.sh/todos')
-        store.commit('init', res.data)
-      } catch (err) {
-        redirect('/error')
+    fetch: init,
+
+    data () {
+      return {
+        task: 'some task'
       }
     },
 
-    // async fetch ({store, redirect, error}) {
-    //  try {
-    //    const res = await axios.get('https://todos-lyfwerctxl.now.sh/todos')
-    //    store.commit('init', res.data)
-    //  } catch (err) {
-    //    error({statusCode: 500, message: 'Oops, try again'})
-    //  }
-    // },
-
-    // async created () {
-    //  const res = await axios.get('https://todos-lyfwerctxl.now.sh/todos')
-    //  this.$store.commit('init', res.data)
-    // },
     computed: {
       ...mapState({
         todos: state => state.todos
@@ -47,7 +38,9 @@
     },
 
     methods: {
-
+      ...mapActions([
+        'add'
+      ])
     }
   }
 </script>
