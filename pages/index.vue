@@ -1,0 +1,27 @@
+<template>
+  <div class="pa4">
+    {{counter}}
+    <button @click="increment">+</button>
+    <button @click="decrement">-</button>
+  </div>
+</template>
+
+<script>
+  // https://github.com/vuejs/vuex
+  import {mapState, mapMutations} from 'vuex'
+  
+  export default {
+    computed: {
+      ...mapState({
+        counter: state => state.counter
+      })
+    },
+
+    methods: {
+      ...mapMutations([
+        'increment',
+        'decrement'
+      ])
+    }
+  }
+</script>
